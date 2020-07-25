@@ -70,9 +70,18 @@ app.locals.title = 'Express - Generated with IronGenerator';
 
 
 // ROUTES MIDDLEWARE STARTS HERE:
+const cors = require('cors');
+app.use(
+  cors({
+    credentials: true,
+    origin: ['http://localhost:3000']
+  })
+)
 
 const index = require('./routes/index');
+const projectsRoute = require('./routes/project-routes')
 app.use('/', index);
+app.use('/api', projectsRoute);
 
 
 module.exports = app;
