@@ -5,7 +5,15 @@ const router = express.Router();
 const uploadCloud = require('../configs/cloudinary-setup');
 
 
-router.post('/upload', uploadCloud.single("image"),(req,res,next)=>{
+const cloudinary = require('cloudinary').v2;
+cloudinary.config({
+  cloud_name: process.env.cloudName,
+  api_key: process.env.cloudKey,
+  api_secret: process.env.cloudSecret
+});
+
+
+router.post('/upload',   uploadCloud.single("image","oldImage"),(req,res,next)=>{
 
 
   if(!req.file){
@@ -13,7 +21,15 @@ router.post('/upload', uploadCloud.single("image"),(req,res,next)=>{
     next(new Error('No file uploaded'))
     return;
   }
-console.log(req.file);
+
+  const lastItem = req.body.oldImage.substring(req.body.oldImage.lastIndexOf('/') + 1);
+
+  console.log(lastItem);
+
+  const lastItemSub = lastItem.split('.').slice(0, -1).join('.')
+  cloudinary.uploader.destroy(`profile/${lastItemSub}`, function(error,result) {
+    console.log(result, error) });
+
   res.json(req.file);
 })
 

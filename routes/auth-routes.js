@@ -15,8 +15,6 @@ const User       = require('../models/user-model');
 
 
 authRoutes.put('/edit', (req, res, next) => {
-  const {username , campus,course} = req.body;
-
   
 
     User.findByIdAndUpdate(req.body._id,req.body)

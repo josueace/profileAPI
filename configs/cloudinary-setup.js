@@ -17,10 +17,16 @@ const storage = new CloudinaryStorage({
   params: {
     folder: 'profile',
     format: async (req, file) => 'png', // supports promises as well
-    public_id: (req, file) => 'computed-filename-using-request',
+   public_id: (req, file) => {
+   
+   },
   },
 });
 
+
+
+
 const uploadCloud = multer({ storage: storage });
+
 
 module.exports = uploadCloud;
